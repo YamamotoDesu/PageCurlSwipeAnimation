@@ -19,18 +19,26 @@ struct PeelEffect<Content: View>: View {
     }
     /// View Properties
     @State private var dragProgress: CGFloat = 0
+    @State private var isExpanded: Bool = false
     var body: some View {
         content
             .hidden()
             .overlay(content: {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
+                    let minX = rect.minX
 
                     RoundedRectangle(cornerRadius: 15, style: .continuous)
                         .fill(.red.gradient)
                         .overlay(alignment: .trailing) {
                             Button {
-                                print("Tapped")
+                                /// Removing Card Completelt
+                                withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+                                    dragProgress = 1
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                    onDelete()
+                                }
                             } label: {
                                 Image(systemName: "trash")
                                     .font(.title)
@@ -38,13 +46,15 @@ struct PeelEffect<Content: View>: View {
                                     .padding(.trailing, 20)
                                     .foregroundColor(.white)
                             }
-                            .disabled(dragProgress < 0.6)
+                            .disabled(!isExpanded)
                         }
                         .padding(.vertical, 8)
                         .contentShape(Rectangle())
                         .gesture(
                             DragGesture()
                                 .onChanged({ value in
+                                    /// Disabling Gesture When it's Expanded
+                                    guard !isExpanded else { return }
                                     /// Right to Left Swipe: Negative Value
                                     var translationX = value.translation.width
                                     translationX = max(-translationX, 0)
@@ -52,12 +62,16 @@ struct PeelEffect<Content: View>: View {
                                     let progress = min(1, translationX / rect.width)
                                     dragProgress = progress
                                 }).onEnded({ value in
+                                    /// Disabling Gesture When it's Expanded
+                                    guard !isExpanded else { return }
                                     /// Smooth Ending Animation
                                     withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
                                         if dragProgress > 0.25 {
                                             dragProgress = 0.6
+                                            isExpanded = true
                                         } else {
                                             dragProgress = .zero
+                                            isExpanded = false
                                         }
                                     }
                                 })
@@ -66,6 +80,7 @@ struct PeelEffect<Content: View>: View {
                         .onTapGesture {
                             withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
                                 dragProgress = .zero
+                                isExpanded = false
                             }
                         }
                     
@@ -79,6 +94,7 @@ struct PeelEffect<Content: View>: View {
                         .mask(content)
                         /// Diabling Interaction
                         .allowsHitTesting(false)
+                        .offset(x: dragProgress == 1 ? -minX : 0)
                     
                     content
                         .mask {
@@ -90,13 +106,14 @@ struct PeelEffect<Content: View>: View {
                         }
                         /// Disable Interaction
                         .allowsHitTesting(false)
-                    
+                        .offset(x: dragProgress == 1 ? -minX : 0)
 
                 }
             })
             .overlay {
                 GeometryReader {
                     let size = $0.size
+                    let minX = $0.frame(in: .global).minX
                     let minOpacity = dragProgress / 0.5
                     let opacity = min(1, minOpacity)
                     
@@ -135,6 +152,7 @@ struct PeelEffect<Content: View>: View {
                             Rectangle()
                                 .offset(x: size.width * -dragProgress)
                         }
+                        .offset(x: dragProgress == 1 ? -minX : 0)
                 }
                 .allowsHitTesting(false)
             }
