@@ -11,6 +11,8 @@
 		7BC6B64B29D3F5C700E02626 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6B64A29D3F5C700E02626 /* ContentView.swift */; };
 		7BC6B65029D3F5CB00E02626 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6B64F29D3F5CB00E02626 /* Preview Assets.xcassets */; };
 		7BC6B65729D3F69D00E02626 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6B65629D3F69B00E02626 /* Assets.xcassets */; };
+		7BC6B65B29D3F79100E02626 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6B65A29D3F79100E02626 /* Home.swift */; };
+		7BC6B65D29D3FCFD00E02626 /* PeelEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6B65C29D3FCFD00E02626 /* PeelEffect.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		7BC6B64A29D3F5C700E02626 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7BC6B64F29D3F5CB00E02626 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7BC6B65629D3F69B00E02626 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/PageCurlSwipe/PageCurlSwipe/Assets.xcassets; sourceTree = "<group>"; };
+		7BC6B65A29D3F79100E02626 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		7BC6B65C29D3FCFD00E02626 /* PeelEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeelEffect.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,7 @@
 		7BC6B64729D3F5C700E02626 /* PageCurlSwipeAnimation */ = {
 			isa = PBXGroup;
 			children = (
+				7BC6B65929D3F77000E02626 /* View */,
 				7BC6B64829D3F5C700E02626 /* PageCurlSwipeAnimationApp.swift */,
 				7BC6B64A29D3F5C700E02626 /* ContentView.swift */,
 				7BC6B65629D3F69B00E02626 /* Assets.xcassets */,
@@ -65,6 +70,15 @@
 				7BC6B64F29D3F5CB00E02626 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7BC6B65929D3F77000E02626 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7BC6B65A29D3F79100E02626 /* Home.swift */,
+				7BC6B65C29D3FCFD00E02626 /* PeelEffect.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +152,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BC6B64B29D3F5C700E02626 /* ContentView.swift in Sources */,
+				7BC6B65B29D3F79100E02626 /* Home.swift in Sources */,
+				7BC6B65D29D3FCFD00E02626 /* PeelEffect.swift in Sources */,
 				7BC6B64929D3F5C700E02626 /* PageCurlSwipeAnimationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
