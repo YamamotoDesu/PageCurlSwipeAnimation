@@ -464,6 +464,8 @@ PeelEffect.swift
 
 ## Make Trash Icon Tappable
 
+<img width="300" alt="スクリーンショット 2023-03-29 22 00 24" src="https://user-images.githubusercontent.com/47273077/228549629-a90a4318-614d-4162-93e8-332da5f95533.gif">
+
 ```swift
             .hidden()
             .overlay(content: {
