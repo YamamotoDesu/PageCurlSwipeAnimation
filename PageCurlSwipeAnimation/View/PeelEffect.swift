@@ -81,6 +81,7 @@ struct PeelEffect<Content: View>: View {
                     
                     Rectangle()
                         .fill(.black)
+                        .padding(.vertical, 23)
                         .shadow(color: .black.opacity(0.3), radius: 15, x: 30, y: 0)
                         /// Moving Along Side While Dragging
                         .padding(.trailing, rect.width * dragProgress)
