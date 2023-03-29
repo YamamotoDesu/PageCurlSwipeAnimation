@@ -74,6 +74,19 @@ struct PeelEffect<Content: View>: View {
                         )
                 }
             }
+            /// Background Shadow
+            .background {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+                    
+                    Rectangle()
+                        .fill(.black)
+                        .shadow(color: .black.opacity(0.3), radius: 15, x: 30, y: 0)
+                        /// Moving Along Side While Dragging
+                        .padding(.trailing, rect.width * dragProgress)
+                }
+                .mask(content)
+            }
             .background {
                 RoundedRectangle(cornerRadius: 15, style: .continuous)
                     .fill(.red.gradient)
