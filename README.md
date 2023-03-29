@@ -166,4 +166,20 @@ PeelEffect.swift
                             let progress = min(1, translationX / size.width)
                             dragProgress = progress
                         }).onEnded({ value in
+```
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228471952-cbcd772a-94c0-4d71-874a-0281ea391c61.gif">
+
+```swift
+
+            content
+                /// Fliping Horizontallyh for Update Image
+                .scaleEffect(x: -1)
+                /// Moving A;long Side While Dragging
+                .offset(x: size.width - (size.width * dragProgress))
+                /// Masking Overlayed Image for Removing Outbound Visibility
+                .mask {
+                    Rectangle()
+                }
  ```
+ 
