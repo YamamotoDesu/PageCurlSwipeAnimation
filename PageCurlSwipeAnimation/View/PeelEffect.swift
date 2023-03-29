@@ -26,7 +26,16 @@ struct PeelEffect<Content: View>: View {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
 
-                    Rectangle()
+                    RoundedRectangle(cornerRadius: 15, style: .continuous)
+                        .fill(.red.gradient)
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "trash")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .padding(.trailing, 20)
+                                .foregroundColor(.white)
+                        }
+                        .padding(.vertical, 8)
                     
                     content
                         .mask {
@@ -116,18 +125,6 @@ struct PeelEffect<Content: View>: View {
                         .padding(.trailing, rect.width * dragProgress)
                 }
                 .mask(content)
-            }
-            .background {
-                RoundedRectangle(cornerRadius: 15, style: .continuous)
-                    .fill(.red.gradient)
-                    .overlay(alignment: .trailing) {
-                        Image(systemName: "trash")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .padding(.trailing, 20)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.vertical, 8)
             }
     }
 }
