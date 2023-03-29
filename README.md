@@ -373,3 +373,31 @@ PeelEffect.swift
                     .offset(x: size.width * -dragProgress)
             }
 ```
+
+## Set Fixed Dragprgress
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228541194-d350ec64-e2ab-40bf-94f0-340b5582832d.gif">
+
+```swift
+    .gesture(
+        DragGesture()
+            .onChanged({ value in
+                /// Right to Left Swipe: Negative Value
+                var translationX = value.translation.width
+                translationX = max(-translationX, 0)
+                /// Converting Translation Into Progress [0 - 1]
+                let progress = min(1, translationX / size.width)
+                dragProgress = progress
+            }).onEnded({ value in
+                /// Smooth Ending Animation
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+                    if dragProgress > 0.25 {
+                        dragProgress = 0.6
+                    } else {
+                        dragProgress = .zero
+                    }
+                }
+            })
+    )
+}
+```
