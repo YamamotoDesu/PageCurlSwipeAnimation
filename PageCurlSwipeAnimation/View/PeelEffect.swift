@@ -29,22 +29,49 @@ struct PeelEffect<Content: View>: View {
                     RoundedRectangle(cornerRadius: 15, style: .continuous)
                         .fill(.red.gradient)
                         .overlay(alignment: .trailing) {
-                            Image(systemName: "trash")
-                                .font(.title)
-                                .fontWeight(.semibold)
-                                .padding(.trailing, 20)
-                                .foregroundColor(.white)
+                            Button {
+                                print("Tapped")
+                            } label: {
+                                Image(systemName: "trash")
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                    .padding(.trailing, 20)
+                                    .foregroundColor(.white)
+                            }
+                            .disabled(dragProgress < 0.6)
                         }
                         .padding(.vertical, 8)
-                    
+                        .contentShape(Rectangle())
+                        .gesture(
+                            DragGesture()
+                                .onChanged({ value in
+                                    /// Right to Left Swipe: Negative Value
+                                    var translationX = value.translation.width
+                                    translationX = max(-translationX, 0)
+                                    /// Converting Translation Into Progress [0 - 1]
+                                    let progress = min(1, translationX / rect.width)
+                                    dragProgress = progress
+                                }).onEnded({ value in
+                                    /// Smooth Ending Animation
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+                                        if dragProgress > 0.25 {
+                                            dragProgress = 0.6
+                                        } else {
+                                            dragProgress = .zero
+                                        }
+                                    }
+                                })
+                        )
                     content
                         .mask {
                             Rectangle()
                             /// Masking Original Content
                             /// Swipe: Right to Left
                             /// Thus Masking from Right to Left ( Trailing)
-                                .padding(.trailing, dragProgress * rect.width)
+                            .padding(.trailing, dragProgress * rect.width)
                         }
+                        /// Disable Interaction
+                        .allowsHitTesting(false)
                 }
             })
             .overlay {
@@ -89,28 +116,8 @@ struct PeelEffect<Content: View>: View {
                             Rectangle()
                                 .offset(x: size.width * -dragProgress)
                         }
-                        .contentShape(Rectangle())
-                        .gesture(
-                            DragGesture()
-                                .onChanged({ value in
-                                    /// Right to Left Swipe: Negative Value
-                                    var translationX = value.translation.width
-                                    translationX = max(-translationX, 0)
-                                    /// Converting Translation Into Progress [0 - 1]
-                                    let progress = min(1, translationX / size.width)
-                                    dragProgress = progress
-                                }).onEnded({ value in
-                                    /// Smooth Ending Animation
-                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
-                                        if dragProgress > 0.25 {
-                                            dragProgress = 0.6
-                                        } else {
-                                            dragProgress = .zero
-                                        }
-                                    }
-                                })
-                        )
                 }
+                .allowsHitTesting(false)
             }
             /// Background Shadow
             .background {
