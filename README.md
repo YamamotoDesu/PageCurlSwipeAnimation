@@ -428,3 +428,36 @@ PeelEffect.swift
                 }
             })
 ```
+
+## Move Deleting BK from Background to Overlay
+
+<img width="300" alt="スクリーンショット 2023-03-29 22 00 24" src="https://user-images.githubusercontent.com/47273077/228543278-770ce3f4-cf69-42c6-9518-4eaebeb2a7ad.png">
+
+```swift
+        content
+            .hidden()
+            .overlay(content: {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+
+                    RoundedRectangle(cornerRadius: 15, style: .continuous)
+                        .fill(.red.gradient)
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "trash")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .padding(.trailing, 20)
+                                .foregroundColor(.white)
+                        }
+                        .padding(.vertical, 8)
+                    
+                    content
+                        .mask {
+                            Rectangle()
+                            /// Masking Original Content
+                            /// Swipe: Right to Left
+                            /// Thus Masking from Right to Left ( Trailing)
+                                .padding(.trailing, dragProgress * rect.width)
+                        }
+                }
+```
