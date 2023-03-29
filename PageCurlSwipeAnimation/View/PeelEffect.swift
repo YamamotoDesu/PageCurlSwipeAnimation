@@ -42,6 +42,11 @@ struct PeelEffect<Content: View>: View {
                         .scaleEffect(x: -1)
                         /// Moving A;long Side While Dragging
                         .offset(x: size.width - (size.width * dragProgress))
+                        .offset(x: size.width * -dragProgress)
+                        /// Masking Overlayed Image for Removing Outbound Visibility
+                        .mask {
+                            Rectangle()
+                        }
                         .contentShape(Rectangle())
                         .gesture(
                             DragGesture()
