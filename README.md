@@ -1,7 +1,7 @@
 # PageCurlSwipeAnimation
 https://www.youtube.com/watch?v=eV9ybRJpuB8&list=TLGGZ5MvezILnkcyOTAzMjAyMw
 
-### [PeelEffect part1]()
+### [PeelEffect part1](https://github.com/YamamotoDesu/PageCurlSwipeAnimation/commit/11ca59512f4fb64e72c731c7b6d9e4c0e7ca3c4d)
 <img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228446717-853cf404-308c-4b03-a42f-b2c548eabddc.gif">
 
 Home.swift
@@ -127,3 +127,43 @@ struct PeelEffect_Previews: PreviewProvider {
     }
 }
 ```
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228452441-17377997-ec3c-4ce4-b2b4-5641a26b39a4.gif">
+
+PeelEffect.swift
+```swift
+        content
+            .offset(x: size.width)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture()
+                    .onChanged({ value in
+                        /// Right to Left Swipe: Negative Value
+                        var translationX = value.translation.width
+                        translationX = max(-translationX, 0)
+                        /// Converting Translation Into Progress [0 - 1]
+                        let progress = min(1, translationX / size.width)
+                        dragProgress = progress
+```
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228467643-532b0a36-f073-4a5f-af07-3dc9705b36a8.gif">
+
+PeelEffect.swift
+```swift
+            content
+                /// Fliping Horizontallyh for Update Image
+                .scaleEffect(x: -1)
+                /// Moving A;long Side While Dragging
+                .offset(x: size.width - (size.width * dragProgress))
+                .contentShape(Rectangle())
+                .gesture(
+                    DragGesture()
+                        .onChanged({ value in
+                            /// Right to Left Swipe: Negative Value
+                            var translationX = value.translation.width
+                            translationX = max(-translationX, 0)
+                            /// Converting Translation Into Progress [0 - 1]
+                            let progress = min(1, translationX / size.width)
+                            dragProgress = progress
+                        }).onEnded({ value in
+ ```
