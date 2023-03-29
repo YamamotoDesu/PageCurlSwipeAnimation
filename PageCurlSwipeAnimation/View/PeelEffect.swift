@@ -36,6 +36,8 @@ struct PeelEffect<Content: View>: View {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
                     let size = $0.size
+                    let minOpacity = dragProgress / 0.5
+                    let opacity = min(1, minOpacity)
                     
                     content
                         /// Making it Look like it's Rolling
@@ -44,6 +46,23 @@ struct PeelEffect<Content: View>: View {
                             Rectangle()
                                 .fill(.white.opacity(0.25))
                                 .mask(content)
+                        }
+                        /// Making it Glow At the Back Side
+                        .overlay(alignment: .trailing) {
+                            Rectangle()
+                                .fill(
+                                    .linearGradient(colors: [
+                                        .clear,
+                                        .white,
+                                        .clear,
+                                        .clear
+                                    ], startPoint: .leading, endPoint: .trailing)
+                                )
+                                .frame(width: 60)
+                                .offset(x: 40)
+                                .offset(x: -30 + (30 * opacity))
+                                /// Moving Along Side While Dragging
+                                .offset(x: size.width * -dragProgress)
                         }
                         /// Fliping Horizontallyh for Update Image
                         .scaleEffect(x: -1)
