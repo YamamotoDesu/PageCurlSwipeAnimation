@@ -520,4 +520,17 @@ PeelEffect.swift
                         .allowsHitTesting(false)
                 }
             })
-  ```
+ ```
+
+## Tap Other Than Delete Button. It will reset to initial State
+
+<img width="300" alt="スクリーンショット 2023-03-29 22 00 24" src="https://user-images.githubusercontent.com/47273077/228552044-23586d79-a071-474a-a5fb-a52178ba88f4.gif">
+
+```swift
+
+    .onTapGesture {
+        withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+            dragProgress = .zero
+        }
+    }
+```          
