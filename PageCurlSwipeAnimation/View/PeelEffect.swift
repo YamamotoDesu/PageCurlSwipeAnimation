@@ -38,6 +38,13 @@ struct PeelEffect<Content: View>: View {
                     let size = $0.size
                     
                     content
+                        /// Making it Look like it's Rolling
+                        .shadow(color: .black.opacity(dragProgress != 0 ? 0.1 : 0), radius: 5, x: 15, y:0)
+                        .overlay {
+                            Rectangle()
+                                .fill(.white.opacity(0.25))
+                                .mask(content)
+                        }
                         /// Fliping Horizontallyh for Update Image
                         .scaleEffect(x: -1)
                         /// Moving A;long Side While Dragging
