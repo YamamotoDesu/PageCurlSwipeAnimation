@@ -21,11 +21,11 @@ struct PeelEffect<Content: View>: View {
     @State private var dragProgress: CGFloat = 0
     var body: some View {
         content
-        /// Masking Original Content
+            /// Masking Original Content
             .mask {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
-                    
+
                     Rectangle()
                     /// Swipe: Right to Left
                     /// Thus Masking from Right to Left ( Trailing)
@@ -38,7 +38,10 @@ struct PeelEffect<Content: View>: View {
                     let size = $0.size
                     
                     content
-                        .offset(x: size.width)
+                        /// Fliping Horizontallyh for Update Image
+                        .scaleEffect(x: -1)
+                        /// Moving A;long Side While Dragging
+                        .offset(x: size.width - (size.width * dragProgress))
                         .contentShape(Rectangle())
                         .gesture(
                             DragGesture()
@@ -47,7 +50,7 @@ struct PeelEffect<Content: View>: View {
                                     var translationX = value.translation.width
                                     translationX = max(-translationX, 0)
                                     /// Converting Translation Into Progress [0 - 1]
-                                    let progress = max(1, translationX / size.width)
+                                    let progress = min(1, translationX / size.width)
                                     dragProgress = progress
                                 }).onEnded({ value in
                                     /// Smooth Ending Animation
