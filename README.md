@@ -309,3 +309,23 @@ PeelEffect.swift
                                 .mask(content)
                         }
 ```
+
+## Make Shadow
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228531912-e299f148-6b94-4046-8346-eedc96db08cb.gif">
+
+```swift
+        /// Background Shadow
+        .background {
+            GeometryReader {
+                let rect = $0.frame(in: .global)
+
+                Rectangle()
+                    .fill(.black)
+                    .shadow(color: .black.opacity(0.3), radius: 15, x: 30, y: 0)
+                    /// Moving Along Side While Dragging
+                    .padding(.trailing, rect.width * dragProgress)
+            }
+            .mask(content)
+        }
+ ```    
