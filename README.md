@@ -349,3 +349,27 @@ PeelEffect.swift
             }
             .mask(content)
 ```
+
+## Make White Shadow
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228539155-8cc668b2-5167-406c-a4d8-f85bc38bdd24.gif">
+
+```swift
+         /// Making it Glow At the Back Side
+            .overlay(alignment: .trailing) {
+                Rectangle()
+                    .fill(
+                        .linearGradient(colors: [
+                            .clear,
+                            .white,
+                            .clear,
+                            .clear
+                        ], startPoint: .leading, endPoint: .trailing)
+                    )
+                    .frame(width: 60)
+                    .offset(x: 40)
+                    .offset(x: -30 + (30 * opacity))
+                    /// Moving Along Side While Dragging
+                    .offset(x: size.width * -dragProgress)
+            }
+```
