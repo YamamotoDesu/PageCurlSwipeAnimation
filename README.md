@@ -211,7 +211,7 @@ PeelEffect.swift
  
 <img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228487323-75073631-7f6d-419c-84c4-273d370df8af.gif">
  
-```
+```swift
             .overlay {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
