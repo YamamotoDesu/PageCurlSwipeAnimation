@@ -127,3 +127,22 @@ struct PeelEffect_Previews: PreviewProvider {
     }
 }
 ```
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228452441-17377997-ec3c-4ce4-b2b4-5641a26b39a4.gif">
+
+PeelEffect.swift
+```swift
+        content
+            .offset(x: size.width)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture()
+                    .onChanged({ value in
+                        /// Right to Left Swipe: Negative Value
+                        var translationX = value.translation.width
+                        translationX = max(-translationX, 0)
+                        /// Converting Translation Into Progress [0 - 1]
+                        let progress = min(1, translationX / size.width)
+                        dragProgress = progress
+```
+
