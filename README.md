@@ -401,3 +401,30 @@ PeelEffect.swift
     )
 }
 ```
+
+## Masking Original Content
+
+<img width="300" alt="スクリーンショット 2023-03-29 21 57 48" src="https://user-images.githubusercontent.com/47273077/228542649-cebaefea-5457-49ca-a32f-14f31bae6494.png">
+
+```swift
+    @State private var dragProgress: CGFloat = 0
+    var body: some View {
+        content
+            .hidden()
+            .overlay(content: {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+
+                    Rectangle()
+                    
+                    content
+                        .mask {
+                            Rectangle()
+                            /// Masking Original Content
+                            /// Swipe: Right to Left
+                            /// Thus Masking from Right to Left ( Trailing)
+                                .padding(.trailing, dragProgress * rect.width)
+                        }
+                }
+            })
+```
