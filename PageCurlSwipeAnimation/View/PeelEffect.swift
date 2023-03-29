@@ -62,6 +62,24 @@ struct PeelEffect<Content: View>: View {
                                     }
                                 })
                         )
+                       /// If we Tap Other Than Delete Button. It will reset to initial State
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+                                dragProgress = .zero
+                            }
+                        }
+                    
+                    // Shadow
+                    Rectangle()
+                        .fill(.black)
+                        .padding(.vertical, 23)
+                        .shadow(color: .black.opacity(0.3), radius: 15, x: 30, y: 0)
+                        /// Moving Along Side While Dragging
+                        .padding(.trailing, rect.width * dragProgress)
+                        .mask(content)
+                        /// Diabling Interaction
+                        .allowsHitTesting(false)
+                    
                     content
                         .mask {
                             Rectangle()
@@ -72,11 +90,12 @@ struct PeelEffect<Content: View>: View {
                         }
                         /// Disable Interaction
                         .allowsHitTesting(false)
+                    
+
                 }
             })
             .overlay {
                 GeometryReader {
-                    let rect = $0.frame(in: .global)
                     let size = $0.size
                     let minOpacity = dragProgress / 0.5
                     let opacity = min(1, minOpacity)
@@ -118,20 +137,6 @@ struct PeelEffect<Content: View>: View {
                         }
                 }
                 .allowsHitTesting(false)
-            }
-            /// Background Shadow
-            .background {
-                GeometryReader {
-                    let rect = $0.frame(in: .global)
-                    
-                    Rectangle()
-                        .fill(.black)
-                        .padding(.vertical, 23)
-                        .shadow(color: .black.opacity(0.3), radius: 15, x: 30, y: 0)
-                        /// Moving Along Side While Dragging
-                        .padding(.trailing, rect.width * dragProgress)
-                }
-                .mask(content)
             }
     }
 }
