@@ -87,7 +87,11 @@ struct PeelEffect<Content: View>: View {
                                 }).onEnded({ value in
                                     /// Smooth Ending Animation
                                     withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
-                                        dragProgress = .zero
+                                        if dragProgress > 0.25 {
+                                            dragProgress = 0.6
+                                        } else {
+                                            dragProgress = .zero
+                                        }
                                     }
                                 })
                         )
