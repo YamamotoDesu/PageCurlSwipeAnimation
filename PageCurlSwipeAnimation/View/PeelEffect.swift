@@ -46,6 +46,7 @@ struct PeelEffect<Content: View>: View {
                         /// Masking Overlayed Image for Removing Outbound Visibility
                         .mask {
                             Rectangle()
+                                .offset(x: size.width * -dragProgress)
                         }
                         .contentShape(Rectangle())
                         .gesture(
