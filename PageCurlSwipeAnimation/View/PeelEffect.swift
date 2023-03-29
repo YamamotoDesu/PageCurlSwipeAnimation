@@ -21,17 +21,23 @@ struct PeelEffect<Content: View>: View {
     @State private var dragProgress: CGFloat = 0
     var body: some View {
         content
-            /// Masking Original Content
-            .mask {
+            .hidden()
+            .overlay(content: {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
 
                     Rectangle()
-                    /// Swipe: Right to Left
-                    /// Thus Masking from Right to Left ( Trailing)
-                        .padding(.trailing, dragProgress * rect.width)
+                    
+                    content
+                        .mask {
+                            Rectangle()
+                            /// Masking Original Content
+                            /// Swipe: Right to Left
+                            /// Thus Masking from Right to Left ( Trailing)
+                                .padding(.trailing, dragProgress * rect.width)
+                        }
                 }
-            }
+            })
             .overlay {
                 GeometryReader {
                     let rect = $0.frame(in: .global)
