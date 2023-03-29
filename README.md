@@ -229,3 +229,68 @@ PeelEffect.swift
                                 .offset(x: size.width * -dragProgress) //added
                         }
 ```
+
+## Set up Deleting BK
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228499929-cba15057-5394-442f-a11d-4e38c5addb01.gif">
+
+```swift
+      content
+            /// Masking Original Content
+            .mask {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+
+                    Rectangle()
+                    /// Swipe: Right to Left
+                    /// Thus Masking from Right to Left ( Trailing)
+                        .padding(.trailing, dragProgress * rect.width)
+                }
+            }
+            .overlay {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+                    let size = $0.size
+                    
+                    content
+                        /// Fliping Horizontallyh for Update Image
+                        .scaleEffect(x: -1)
+                        /// Moving A;long Side While Dragging
+                        .offset(x: size.width - (size.width * dragProgress))
+                        .offset(x: size.width * -dragProgress)
+                        /// Masking Overlayed Image for Removing Outbound Visibility
+                        .mask {
+                            Rectangle()
+                                .offset(x: size.width * -dragProgress)
+                        }
+                        .contentShape(Rectangle())
+                        .gesture(
+                            DragGesture()
+                                .onChanged({ value in
+                                    /// Right to Left Swipe: Negative Value
+                                    var translationX = value.translation.width
+                                    translationX = max(-translationX, 0)
+                                    /// Converting Translation Into Progress [0 - 1]
+                                    let progress = min(1, translationX / size.width)
+                                    dragProgress = progress
+                                }).onEnded({ value in
+                                    /// Smooth Ending Animation
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+                                        dragProgress = .zero
+                                    }
+                                })
+                        )
+                }
+            }
+            .background { //added
+                RoundedRectangle(cornerRadius: 15, style: .continuous)
+                    .fill(.red.gradient)
+                    .overlay(alignment: .trailing) {
+                        Image(systemName: "trash")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .padding(.trailing, 20)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.vertical, 8)
+ ```
