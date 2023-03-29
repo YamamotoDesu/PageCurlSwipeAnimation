@@ -183,3 +183,26 @@ PeelEffect.swift
                 }
  ```
  
+## Make it more quicker
+
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228485673-72ccc1b6-d7ad-480c-aa45-a867fcf5d0eb.gif">
+
+```swift
+            .overlay {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+                    let size = $0.size
+                    
+                    content
+                        /// Fliping Horizontallyh for Update Image
+                        .scaleEffect(x: -1)
+                        /// Moving A;long Side While Dragging
+                        .offset(x: size.width - (size.width * dragProgress))
+                        .offset(x: size.width * -dragProgress) // added
+                        /// Masking Overlayed Image for Removing Outbound Visibility
+                        .mask {
+                            Rectangle()
+                        }
+                        .contentShape(Rectangle())
+                        .gesture(
+ ```
