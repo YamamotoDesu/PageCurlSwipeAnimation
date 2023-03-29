@@ -206,3 +206,26 @@ PeelEffect.swift
                         .contentShape(Rectangle())
                         .gesture(
  ```
+ 
+## Covering up the region
+ 
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228487323-75073631-7f6d-419c-84c4-273d370df8af.gif">
+ 
+```
+            .overlay {
+                GeometryReader {
+                    let rect = $0.frame(in: .global)
+                    let size = $0.size
+                    
+                    content
+                        /// Fliping Horizontallyh for Update Image
+                        .scaleEffect(x: -1)
+                        /// Moving A;long Side While Dragging
+                        .offset(x: size.width - (size.width * dragProgress))
+                        .offset(x: size.width * -dragProgress)
+                        /// Masking Overlayed Image for Removing Outbound Visibility
+                        .mask {
+                            Rectangle()
+                                .offset(x: size.width * -dragProgress) //added
+                        }
+```
