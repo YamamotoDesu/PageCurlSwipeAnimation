@@ -146,3 +146,24 @@ PeelEffect.swift
                         dragProgress = progress
 ```
 
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228467643-532b0a36-f073-4a5f-af07-3dc9705b36a8.gif">
+
+PeelEffect.swift
+```swift
+            content
+                /// Fliping Horizontallyh for Update Image
+                .scaleEffect(x: -1)
+                /// Moving A;long Side While Dragging
+                .offset(x: size.width - (size.width * dragProgress))
+                .contentShape(Rectangle())
+                .gesture(
+                    DragGesture()
+                        .onChanged({ value in
+                            /// Right to Left Swipe: Negative Value
+                            var translationX = value.translation.width
+                            translationX = max(-translationX, 0)
+                            /// Converting Translation Into Progress [0 - 1]
+                            let progress = min(1, translationX / size.width)
+                            dragProgress = progress
+                        }).onEnded({ value in
+ ```
