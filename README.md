@@ -294,3 +294,18 @@ PeelEffect.swift
                     }
                     .padding(.vertical, 8)
  ```
+ 
+ ## Set Overlay
+ 
+<img width="300" alt="スクリーンショット 2023-03-29 15 35 23" src="https://user-images.githubusercontent.com/47273077/228527721-713fc16e-d940-4a49-8b22-7763c76b1d3b.gif">
+
+ ```swift
+                     content
+                        /// Making it Look like it's Rolling
+                        .shadow(color: .black.opacity(dragProgress != 0 ? 0.1 : 0), radius: 5, x: 15, y:0)
+                        .overlay {
+                            Rectangle()
+                                .fill(.white.opacity(0.25))
+                                .mask(content)
+                        }
+```
